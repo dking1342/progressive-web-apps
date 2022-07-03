@@ -1,0 +1,19 @@
+{
+  "recipes":[
+    {
+      "id":1,
+      "title":"Edame Noodles",
+      "ingredients":["Edame Beans", "Noodels", "Garlic oil"]
+    },
+    {
+      "id":2,
+      "title":"Edame Noodles",
+      "ingredients":["Edame Beans", "Noodels", "Garlic oil"]
+    },
+    {
+      "id":3,
+      "title":"Edame Noodles",
+      "ingredients":["Edame Beans", "Noodels", "Garlic oil"]
+    }
+  ]
+}
