@@ -1,19 +1,29 @@
 {
-  "recipes":[
+  "recipes": [
     {
-      "id":1,
-      "title":"Edame Noodles",
-      "ingredients":["Edame Beans", "Noodels", "Garlic oil"]
+      "id": 3,
+      "title": "Edame Noodles",
+      "ingredients": [
+        "Edame Beans",
+        "Noodels",
+        "Garlic oil"
+      ]
     },
     {
-      "id":2,
-      "title":"Edame Noodles",
-      "ingredients":["Edame Beans", "Noodels", "Garlic oil"]
+      "id": 89823,
+      "title": "Pizza",
+      "ingredients": [
+        "mushrooms",
+        " cheese"
+      ]
     },
     {
-      "id":3,
-      "title":"Edame Noodles",
-      "ingredients":["Edame Beans", "Noodels", "Garlic oil"]
+      "id": 597752,
+      "title": "Soup",
+      "ingredients": [
+        "Water",
+        "Oil"
+      ]
     }
   ]
 }

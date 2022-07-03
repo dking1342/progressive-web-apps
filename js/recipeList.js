@@ -64,10 +64,12 @@ class RecipeList extends HTMLElement {
       // delete section
       const deleteBtn = document.createElement("div");
       deleteBtn.classList.add("recipe-delete");
+      deleteBtn.dataset.key = `${rec.id}`;
 
       const deleteIcon = document.createElement("i");
-      deleteIcon.classList.add("material-icons");
+      deleteIcon.classList.add("material-icons", "delete-btn");
       deleteIcon.innerText = "delete_outline"
+      deleteIcon.addEventListener("click",e => this.deleteRecipe(rec))
 
       // card body creation
       cardBody.append(cardTitle);
@@ -87,10 +89,17 @@ class RecipeList extends HTMLElement {
     })
   }
 
+  async deleteRecipe(recipe){
+    await fetch(`http://localhost:3000/recipes/${recipe.id}`,{
+      method:"DELETE"
+    });
+  }
+
   connectedCallback(){
     window.addEventListener("DOMContentLoaded", e => {
-      this.fetchData()
+      this.fetchData();
     });
+
   }
   
   disconnectedCallback(){

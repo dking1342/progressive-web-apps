@@ -24,11 +24,12 @@
 
   <!-- add recipe side nav -->
   <div id="side-form" class="sidenav side-form">
+    <button class="side-form-exit btn">X</button>
     <form class="add-recipe container section">
       <h6 >New Recipe</h6>
       <div class="divider"></div>
       <div class="input-field">
-        <input placeholder="e.g. Ninja soup" id="title" type="text" class="validate">
+        <input placeholder="e.g. Ninja soup" id="recipe-title" type="text" class="validate">
         <label for="title">Recipe Title</label>
       </div>
       <div class="input-field">
@@ -36,12 +37,13 @@
         <label for="ingredients">Ingredients</label>
       </div>
       <div class="input-field center">
-        <button class="btn-small">Add</button>
+        <input type="submit" value="Add" id="add-recipe" class="btn">
       </div>
     </form>
   </div>
 
   <script src="./js/materialize.min.js"></script>
+  <script src="./js/app.js"></script>
   <script src="./js/navbar.js"></script>
   <script src="./js/recipeList.js"></script>
 </body>

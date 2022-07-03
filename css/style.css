@@ -73,3 +73,13 @@ input{
 form .input-field{
   margin-top: 30px;
 }
+
+.side-form-exit {
+  position:absolute;
+  right:0;
+  cursor: pointer;
+  background-color: transparent;
+  outline:none;
+  border:none;
+  font-size: 14px;
+}
