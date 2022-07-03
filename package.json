@@ -1,5 +1,6 @@
 {
   "name": "pwa1",
+  "type": "module",
   "version": "1.0.0",
   "description": "Intro to PWAs",
   "main": "main.js",

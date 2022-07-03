@@ -4,15 +4,85 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <link rel="stylesheet" href="./css/style.css">
-  <title>Progressive Web Apps</title>
+  <title>PWA Food</title>
 </head>
-<body>
+<body class="grey lighten-4">
 
+  <nav-bar></nav-bar>
 
+  <!-- recipes -->
+  <div class="recipes container grey-text text-darken-1">
+    <div class="card-panel recipe white row">
+      <img src="/img/dish.png" alt="recipe thumb">
+      <div class="recipe-details">
+        <div class="recipe-title">Edame Noodles</div>
+        <div class="recipe-ingredients">Edame Beans, Noodels, Garlic oil</div>
+      </div>
+      <div class="recipe-delete">
+        <i class="material-icons">delete_outline</i>
+      </div>
+    </div>
+    <div class="card-panel recipe white row">
+      <img src="/img/dish.png" alt="recipe thumb">
+      <div class="recipe-details">
+        <div class="recipe-title">Edame Noodles</div>
+        <div class="recipe-ingredients">Edame Beans, Noodels, Garlic oil</div>
+      </div>
+      <div class="recipe-delete">
+        <i class="material-icons">delete_outline</i>
+      </div>
+    </div>
+    <div class="card-panel recipe white row">
+      <img src="/img/dish.png" alt="recipe thumb">
+      <div class="recipe-details">
+        <div class="recipe-title">Edame Noodles</div>
+        <div class="recipe-ingredients">Edame Beans, Noodels, Garlic oil</div>
+      </div>
+      <div class="recipe-delete">
+        <i class="material-icons">delete_outline</i>
+      </div>
+    </div>
+    <div class="card-panel recipe white row">
+      <img src="/img/dish.png" alt="recipe thumb">
+      <div class="recipe-details">
+        <div class="recipe-title">Edame Noodles</div>
+        <div class="recipe-ingredients">Edame Beans, Noodels, Garlic oil</div>
+      </div>
+      <div class="recipe-delete">
+        <i class="material-icons">delete_outline</i>
+      </div>
+    </div>
+  </div>  
+    
+  <div class="center">
+    <a class="btn-floating btn-small btn-large add-btn sidenav-trigger" data-target="side-form">
+      <i class="material-icons">add</i>
+    </a>
+  </div>    
+
+  <!-- add recipe side nav -->
+  <div id="side-form" class="sidenav side-form">
+    <form class="add-recipe container section">
+      <h6 >New Recipe</h6>
+      <div class="divider"></div>
+      <div class="input-field">
+        <input placeholder="e.g. Ninja soup" id="title" type="text" class="validate">
+        <label for="title">Recipe Title</label>
+      </div>
+      <div class="input-field">
+        <input placeholder="e.g. Tofu, mushroom, garlic" id="ingredients" type="text" class="validate">
+        <label for="ingredients">Ingredients</label>
+      </div>
+      <div class="input-field center">
+        <button class="btn-small">Add</button>
+      </div>
+    </form>
+  </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-  <script src="./js/app.js"></script>
+  <script src="./js/navbar.js"></script>
 </body>
 </html>
