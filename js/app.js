@@ -2,6 +2,7 @@ const sideForm = document.querySelector("#side-form");
 const sideFormExitBtn = document.querySelector(".side-form-exit");
 const form = document.querySelector("form");
 
+
 document.querySelector(".add-btn").addEventListener("click", e => {
   sideForm.style.transform = "translateX(0%)"
 });
@@ -38,5 +39,6 @@ document.querySelector("#add-recipe").addEventListener("click", async (e) => {
   const data = await response.json();
   console.log(data);
 
-  // sideForm.style.transform = "translateX(-100%)"
+  sideForm.style.transform = "translateX(-100%)"
 })
+

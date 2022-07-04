@@ -11,6 +11,8 @@ RecipeListTemplate.innerHTML = `
 `;
 
 
+
+
 class RecipeList extends HTMLElement {
   constructor(){
     super();
@@ -21,7 +23,7 @@ class RecipeList extends HTMLElement {
 
   async fetchData(){
     try {
-      const response = await fetch("10.0.2.2:3000/recipes");
+      const response = await fetch("http://localhost:3000/recipes");
 
       if(response.ok){
         const data = await response.json();
@@ -95,9 +97,14 @@ class RecipeList extends HTMLElement {
     });
   }
 
+  async getData(){
+    console.log(await payload)
+  }
+
   connectedCallback(){
-    window.addEventListener("DOMContentLoaded", e => {
-      this.fetchData();
+
+    window.addEventListener("DOMContentLoaded", async (e) => {
+      await this.fetchData()
     });
 
   }
