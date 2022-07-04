@@ -21,7 +21,7 @@ class RecipeList extends HTMLElement {
 
   async fetchData(){
     try {
-      const response = await fetch("http://localhost:3000/recipes");
+      const response = await fetch("10.0.2.2:3000/recipes");
 
       if(response.ok){
         const data = await response.json();
@@ -90,7 +90,7 @@ class RecipeList extends HTMLElement {
   }
 
   async deleteRecipe(recipe){
-    await fetch(`http://localhost:3000/recipes/${recipe.id}`,{
+    await fetch(`10.0.2.2:3000/recipes/${recipe.id}`,{
       method:"DELETE"
     });
   }
