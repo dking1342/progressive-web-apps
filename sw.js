@@ -1,5 +1,5 @@
-const staticCacheName = "site-static-v6";
-const dynamicCacheName = "site-dynamic-v5";
+const staticCacheName = "site-static-v12";
+const dynamicCacheName = "site-dynamic-v12";
 const assets = [
   "/",
   "/index.html",
@@ -12,20 +12,23 @@ const assets = [
   "/manifest.json",
   "/js/serviceWorker.js",
   "/icons",
+  "/pages/offline.html",
 ];
-// const iteratorAssets = assets[Symbol.iterator]()
 
 // install event
 self.addEventListener('install', evt => {
   // pre-caching
-  evt.waitUntil(
-    caches
-      .open(staticCacheName)
-      .then(cache => {
-        return cache.addAll(assets)
-      })
-      .catch(err => console.log({"install error": err}))
-  )
+  evt.waitUntil((async () => {
+    try {
+      let cache = await caches.open(staticCacheName);
+      await assets.forEach(async (asset) => {
+        return await cache.add(asset)
+      });
+    } catch (error) {
+      console.log({"install error":error})
+      return new Response();
+    }
+  })())
 });
 
 // activate event
@@ -36,7 +39,7 @@ self.addEventListener('activate', e => {
       .keys()
       .then(keys => {
         return Promise.all(keys
-          .filter(key => key !== staticCacheName)
+          .filter(key => key !== staticCacheName && key !== dynamicCacheName)
           .map(key => caches.delete(key))
         )
       })
@@ -53,23 +56,20 @@ self.addEventListener("fetch", (e) => {
       if(cachedResponse) return cachedResponse;
   
       const response = await fetch(e.request);
-
+      
       if (!response || response.status !== 200 || response.type !== 'basic') {
+        let errorResponse = await caches.match("/pages/offline.html");
+        return errorResponse;  
+      } else {
+        const responseToCache = response.clone();
+        const cache = await caches.open(dynamicCacheName)
+        await cache.put(e.request, responseToCache);
         return response;
       }
-      
-      const responseToCache = response.clone();
-      const cache = await caches.open(dynamicCacheName)
-      await cache.put(e.request, responseToCache);
-
-      return response;
-
-      // await caches
-      //   .open(dynamicCacheName)
-      //   .put(e.request.url, fetchResponse.clone())
-      // return fetchResponse;      
     } catch (error) {
       console.log({"fetch error":error})
+      let errorResponse = await caches.match("/pages/offline.html");
+      return errorResponse;
     }
   })())
 })
