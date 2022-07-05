@@ -1,5 +1,5 @@
-const staticCacheName = "site-static-v12";
-const dynamicCacheName = "site-dynamic-v12";
+const staticCacheName = "site-static-v5";
+const dynamicCacheName = "site-dynamic-v5";
 const assets = [
   "/",
   "/index.html",
@@ -9,11 +9,21 @@ const assets = [
   "/css/style.css",
   "/img/dish.png",
   "/css/materialize.min.css",
-  "/manifest.json",
   "/js/serviceWorker.js",
-  "/icons",
   "/pages/offline.html",
 ];
+
+// cache size limit function
+const limitCacheSize = async (name, size) => {
+  const cache = await caches.open(name);
+  const keys = await cache.keys();
+  if(keys.length <= size){
+    return;
+  } else {
+    await cache.delete(keys[0]);
+    await limitCacheSize(name, size);
+  }
+}
 
 // install event
 self.addEventListener('install', evt => {
@@ -34,21 +44,17 @@ self.addEventListener('install', evt => {
 // activate event
 self.addEventListener('activate', e => {
   // get latest cache version
-  e.waitUntil(
-    caches
-      .keys()
-      .then(keys => {
-        return Promise.all(keys
-          .filter(key => key !== staticCacheName && key !== dynamicCacheName)
-          .map(key => caches.delete(key))
-        )
-      })
-  )
+  e.waitUntil((async () => {
+    const keys = await caches.keys();
+    return await keys
+      .filter(key => key !== staticCacheName && key !== dynamicCacheName)
+      .map(async (key) => await caches.delete(key));
+  })())
 });
 
 // fetch events
 self.addEventListener("fetch", (e) => {
-  if (!(e.request.url.indexOf('http') === 0)) return; 
+  if (e.request.url.indexOf('html') < 0) return; 
 
   e.respondWith((async () => {
     try {
@@ -61,9 +67,11 @@ self.addEventListener("fetch", (e) => {
         let errorResponse = await caches.match("/pages/offline.html");
         return errorResponse;  
       } else {
+        console.log("dynamic cache")
         const responseToCache = response.clone();
         const cache = await caches.open(dynamicCacheName)
         await cache.put(e.request, responseToCache);
+        await limitCacheSize(dynamicCacheName, 15);
         return response;
       }
     } catch (error) {
