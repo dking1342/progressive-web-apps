@@ -37,7 +37,7 @@ navbarTemplate.innerHTML = `
     <li><a href="/pages/about.html" class="waves-effect">About</a></li>
     <li><div class="divider"></div></li>
     <li><a href="/pages/contact.html" class="waves-effect">
-      <i class="material-icons">mail_outline</i>Contact</a>
+      Contact</a>
     </li>
   </ul>
 `;
