@@ -6,7 +6,8 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "serve":"json-server --watch db.json"
+    "serve":"json-server --watch db.json",
+    "server":"json-server db.json --routes routes.json"
   },
   "author": "David",
   "license": "MIT",

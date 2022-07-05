@@ -1,32 +1,31 @@
 const navbarTemplate = document.createElement("template");
 
 navbarTemplate.innerHTML = `
-  <head>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <style>
-      .closeSideNav {
-        position: absolute;
-        left: 100%;
-        width: 30px;
-        height: 30px;
-        transform: translateX(-100%);
-        cursor: pointer;
-        background: transparent;
-        outline: none;
-        border: none;
-        font-size: 14px;
-        font-weight: bold;
-        top: 5px;
-      }
-    </style>
-  </head>
+  <link rel="stylesheet" href="../css/materialize.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+
+  <style>  
+    .closeSideNav {
+      position: absolute;
+      left: 100%;
+      width: 30px;
+      height: 30px;
+      transform: translateX(-100%);
+      cursor: pointer;
+      background: transparent;
+      outline: none;
+      border: none;
+      font-size: 14px;
+      font-weight: bold;
+      top: 5px;
+    }
+  </style>
 
   <nav class="z-depth-0">
     <div class="nav-wrapper container">
       <a href="/">Food<span>Ninja</span></a>
       <span class="right grey-text text-darken-1">
-        <i class="material-icons sidenav-trigger" data-target="side-menu">menu</i>
+        <i class="material-icons sidenav-trigger" data-target="side-menu">🍔</i>
       </span>
     </div>
   </nav>

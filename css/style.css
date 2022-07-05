@@ -83,3 +83,7 @@ form .input-field{
   border:none;
   font-size: 14px;
 }
+
+.delete-btn {
+  pointer-events: none;
+}

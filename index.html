@@ -5,25 +5,27 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#ffe1c4">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="/css/materialize.min.css">
+  <link rel="stylesheet" href="/css/style.css">
   <link rel="manifest" href="/manifest.json">
+  <link rel="shortcut icon" href="#">
   <!-- ios support -->
   <link rel="apple-touch-icon" href="/img/icons/icon-96x96.png">
   <meta name="apple-mobile-web-app-status-bar" content="#aa7700">
   <title>PWA Food</title>
 </head>
 <body class="grey lighten-4">
-
+  <h1>hello</h1>
   <nav-bar></nav-bar>
 
   <!-- recipes -->
-  <recipe-list></recipe-list>
+  <div class="recipes container grey-text text-darken-1">
+    <recipe-list></recipe-list>
+  </div> 
     
   <div class="center">
     <a class="btn-floating btn-small btn-large add-btn sidenav-trigger" data-target="side-form">
-      <i class="material-icons">add</i>
+      <i class="material-icons">+</i>
     </a>
   </div>    
 
@@ -42,15 +44,16 @@
         <label for="ingredients">Ingredients</label>
       </div>
       <div class="input-field center">
-        <input type="submit" value="Add" id="add-recipe" class="btn">
+        <button type="submit" id="submit">Add</button>
+        <!-- <input type="submit" value="Add" id="add-recipe" class="btn"> -->
       </div>
     </form>
   </div>
 
   <script src="./js/materialize.min.js"></script>
   <script src="./js/serviceWorker.js"></script>
-  <script src="./js/app.js" type="module"></script>
+  <script src="./js/app.js"></script>
   <script src="./js/navbar.js"></script>
-  <script src="./js/recipeList.js" type="module"></script>
+  <script src="./js/recipeList.js"></script>
 </body>
 </html>

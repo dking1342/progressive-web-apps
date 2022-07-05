@@ -1,13 +1,15 @@
 const RecipeListTemplate = document.createElement("template");
 
 RecipeListTemplate.innerHTML = `
-  <head>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link rel="stylesheet" href="../css/style.css">
-  </head>
+  <link rel="stylesheet" href="../css/materialize.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .delete-btn {
+      pointer-events: none;
+    }
+  </style>
 
-  <div class="recipes container grey-text text-darken-1"></div>  
+  <div class="list"></div>  
 `;
 
 
@@ -34,12 +36,12 @@ class RecipeList extends HTMLElement {
       }
 
     } catch (error) {
-      console.error(error);      
+      console.error({"fetch error":error});      
     }
   }
 
   createList(){
-    const container = this.shadowRoot.querySelector(".recipes");
+    const container = this.shadowRoot.querySelector(".list");
 
     this.recipes.forEach(rec => {
       // card
@@ -67,11 +69,11 @@ class RecipeList extends HTMLElement {
       const deleteBtn = document.createElement("div");
       deleteBtn.classList.add("recipe-delete");
       deleteBtn.dataset.key = `${rec.id}`;
+      deleteBtn.addEventListener("click", e => this.deleteRecipe(rec))
 
       const deleteIcon = document.createElement("i");
       deleteIcon.classList.add("material-icons", "delete-btn");
-      deleteIcon.innerText = "delete_outline"
-      deleteIcon.addEventListener("click",e => this.deleteRecipe(rec))
+      deleteIcon.innerText = "X"
 
       // card body creation
       cardBody.append(cardTitle);
@@ -92,13 +94,9 @@ class RecipeList extends HTMLElement {
   }
 
   async deleteRecipe(recipe){
-    await fetch(`10.0.2.2:3000/recipes/${recipe.id}`,{
+    const deletedRecipe = await fetch(`http://localhost:3000/recipes/${recipe.id}`,{
       method:"DELETE"
     });
-  }
-
-  async getData(){
-    console.log(await payload)
   }
 
   connectedCallback(){
