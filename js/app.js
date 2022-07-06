@@ -11,8 +11,7 @@ sideFormExitBtn.addEventListener("click", e => {
   sideForm.style.transform = "translateX(-100%)"
 })
 
-document.querySelector("#submit").addEventListener("submit", async (e) => {
-  console.log("submit")
+document.querySelector("#submit").addEventListener("click", async (e) => {
   e.preventDefault();
 
   let id = Math.ceil(Math.random() * 1000000);
@@ -26,27 +25,21 @@ document.querySelector("#submit").addEventListener("submit", async (e) => {
     ingredients: recipeIngredients
   }
 
-  sideForm.style.transform = "translateX(-100%)"
+  let data = await fetch("http://localhost:3000/recipes",{
+    method: 'POST', 
+    mode: 'cors', 
+    cache: 'no-cache', 
+    credentials: 'same-origin', 
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    redirect: 'follow', 
+    referrerPolicy: 'no-referrer', 
+    body: JSON.stringify(body) 
+  });
+  console.log(data)
 
-  if(Boolean(body.title) && Boolean(body.ingredients)){
-    console.log("fetch")
-    let data = await fetch("http://localhost:3000/recipes",{
-      method: 'POST', 
-      mode: 'cors', 
-      cache: 'no-cache', 
-      credentials: 'same-origin', 
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      redirect: 'follow', 
-      referrerPolicy: 'no-referrer', 
-      body: JSON.stringify(body) 
-    });
-    console.log(data)
-  } else {
-    console.log({"error":"did not post"})
-  }
-  
+  sideForm.style.transform = "translateX(-100%)"
 
 })
 

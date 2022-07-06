@@ -1,5 +1,8 @@
-const staticCacheName = "site-static-v5";
-const dynamicCacheName = "site-dynamic-v5";
+const INDEXDB_NAME = "FOOD_DB";
+const storeName = "recipes";
+let indexdb = null;
+const staticCacheName = "site-static-v1";
+const dynamicCacheName = "site-dynamic-v1";
 const assets = [
   "/",
   "/index.html",
@@ -11,7 +14,80 @@ const assets = [
   "/css/materialize.min.css",
   "/js/serviceWorker.js",
   "/pages/offline.html",
+  "/js/recipeList.js",
+  "http://localhost:3000/recipes",
 ];
+
+// db setup
+const dbOpen = async (dbName,storeName) => {
+  const dbOpen = indexedDB.open(dbName)
+  
+  return new Promise((resolve,reject) => {
+    dbOpen.onsuccess = (e) => {
+      let db = e.target.result;
+      let transaction = db.transaction(storeName,'readwrite');
+      let store = transaction.objectStore(storeName);
+      resolve(store)
+    }
+    
+    dbOpen.onerror = () => {
+      reject(dbOpen.error)
+    }
+    dbOpen.onupgradeneeded = e => {
+      const db = e.target.result;
+      db.createObjectStore(storeName);
+      resolve("db init")
+    };  
+  })
+}
+
+const addRecipe = async (recipe) => {
+  const dbOpen = indexedDB.open(INDEXDB_NAME)
+  
+  return new Promise((resolve,reject) => {
+    dbOpen.onsuccess = (e) => {
+      let db = e.target.result;
+      let transaction = db.transaction(storeName,'readwrite');
+      let store = transaction.objectStore(storeName);
+      let newItem = store.add(recipe,recipe.id);
+      
+      newItem.onsuccess = event => {
+        resolve(event.target.result)
+      }
+      newItem.onerror = event => {
+        reject(event.target.error)
+      }
+    }
+    
+    dbOpen.onerror = () => {
+      reject(dbOpen.error)
+    }
+  })
+}
+
+const getAll = () => {
+  const dbOpen = indexedDB.open(INDEXDB_NAME)
+  
+  return new Promise((resolve,reject) => {
+    dbOpen.onsuccess = (e) => {
+      let db = e.target.result;
+      let transaction = db.transaction(storeName,'readwrite');
+      let store = transaction.objectStore(storeName);
+      let allItems = store.getAll();
+      
+      allItems.onsuccess = event => {
+        resolve(event.target.result)
+      }
+      allItems.onerror = event => {
+        reject(event.target.error)
+      }
+    }
+    
+    dbOpen.onerror = () => {
+      reject(dbOpen.error)
+    }
+  })
+}
 
 // cache size limit function
 const limitCacheSize = async (name, size) => {
@@ -42,9 +118,12 @@ self.addEventListener('install', evt => {
 });
 
 // activate event
-self.addEventListener('activate', e => {
+self.addEventListener('activate',async (e) => {
   // get latest cache version
   e.waitUntil((async () => {
+    // init client indexed db
+    let response = await dbOpen(INDEXDB_NAME,storeName)
+    if(response) indexdb = response;
     const keys = await caches.keys();
     return await keys
       .filter(key => key !== staticCacheName && key !== dynamicCacheName)
@@ -52,10 +131,22 @@ self.addEventListener('activate', e => {
   })())
 });
 
-// fetch events
-self.addEventListener("fetch", (e) => {
-  if (e.request.url.indexOf('html') < 0) return; 
 
+// fetch events
+self.addEventListener("fetch", async (e) => {
+  // if(e.request.url === "http://localhost:5500/js/recipeList.js"){
+  //   const recipe = {
+  //     id:2,
+  //     title:"Pizza",
+  //     ingredients:["Water","Sweets"]
+  //   }
+  //   // let result = await addRecipe(recipe)
+  //   let results = await getAll();
+  //   console.log({results})
+  // }
+
+  if (e.request.url.indexOf('html' || e.request.url !== "/recipes") < 0) return; 
+  
   e.respondWith((async () => {
     try {
       const cachedResponse = await caches.match(e.request);
@@ -67,7 +158,6 @@ self.addEventListener("fetch", (e) => {
         let errorResponse = await caches.match("/pages/offline.html");
         return errorResponse;  
       } else {
-        console.log("dynamic cache")
         const responseToCache = response.clone();
         const cache = await caches.open(dynamicCacheName)
         await cache.put(e.request, responseToCache);
