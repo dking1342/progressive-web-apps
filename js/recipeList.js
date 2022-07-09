@@ -23,13 +23,41 @@ class RecipeList extends HTMLElement {
     this.recipes = [];
   }
 
+  async getAll(){
+    try {
+      let dbOpen = self.indexedDB.open("FOOD_DB");
+      return new Promise((resolve, reject) => {
+        dbOpen.onsuccess = (e) => {
+          let db = e.target.result;
+          let transaction = db.transaction('recipes','readwrite');
+          let store = transaction.objectStore('recipes');
+          let allItems = store.getAll();
+          
+          allItems.onsuccess = event => {
+            resolve(event.target.result)
+          }
+          allItems.onerror = event => {
+            reject(event.target.error)
+          }
+        }
+        
+        dbOpen.onerror = () => {
+          reject({error: dbOpen.error})
+        }    
+      })      
+    } catch (error) {
+      return { error }
+    }
+  }
+
   async fetchData(){
     try {
       const response = await fetch("http://localhost:3000/recipes");
 
       if(response.ok){
         const data = await response.json();
-        this.recipes = data;
+        const sortedData = data.sort((a,b) => b.createdAt - a.createdAt);
+        this.recipes = sortedData;
         this.createList();
       } else {
         console.error("Error when fetching")
@@ -94,9 +122,22 @@ class RecipeList extends HTMLElement {
   }
 
   async deleteRecipe(recipe){
-    const deletedRecipe = await fetch(`http://localhost:3000/recipes/${recipe.id}`,{
-      method:"DELETE"
-    });
+    try {
+      const response = await fetch(`http://localhost:3000/recipes/${recipe.id}`,{
+        method: 'DELETE', 
+      });
+
+      if(response.ok){
+        console.log("deleted")
+        location.reload();
+      } else {
+        console.log("error when fetching")
+      }
+      
+    } catch (error) {
+      console.log(error)
+    }
+    
   }
 
   connectedCallback(){

@@ -22,22 +22,33 @@ document.querySelector("#submit").addEventListener("click", async (e) => {
   const body = {
     id,
     title,
-    ingredients: recipeIngredients
+    ingredients: recipeIngredients,
+    createdAt: Date.now()
   }
 
-  let data = await fetch("http://localhost:3000/recipes",{
-    method: 'POST', 
-    mode: 'cors', 
-    cache: 'no-cache', 
-    credentials: 'same-origin', 
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    redirect: 'follow', 
-    referrerPolicy: 'no-referrer', 
-    body: JSON.stringify(body) 
-  });
-  console.log(data)
+  try {
+    let response = await fetch("http://localhost:3000/recipes",{
+      method: 'POST', 
+      mode: 'cors', 
+      cache: 'no-cache', 
+      credentials: 'same-origin', 
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      redirect: 'follow', 
+      referrerPolicy: 'no-referrer', 
+      body: JSON.stringify(body) 
+    });
+    
+    if(response.ok){
+      let data = await response.json();
+      console.log("response ok", data)
+      location.reload()
+    }
+    
+  } catch (error) {
+    console.log({"error":error.message})    
+  }
 
   sideForm.style.transform = "translateX(-100%)"
 
